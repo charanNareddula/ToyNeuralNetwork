@@ -14,10 +14,11 @@ import pandas as pd
 import random
 import numpy as np 
 import math
+import gc
 from array import *
 
 class Matrix:
-    def __init__(self, rows,cols,vector,filename):
+    def __init__(self, rows,cols,vector):
         self.activation = NeuralNet.activation
         if vector is not None:
             self.rows = 1
@@ -28,7 +29,7 @@ class Matrix:
             return
         self.rows = rows
         self.cols = cols
-        self.filename = "abcd"
+        
         self.mat = np.array([[random.random() for col in range(self.cols)] for row in range(self.rows)])
 
     def setCol(self, X ,col): 
@@ -107,6 +108,7 @@ class NeuralNet:
         self.max_batch_size = 1
         self.debug = False
         self.data_index = 1
+        self.filename = "abcd"
         
         self.cumulative_error =0 # sum of error so far
         self.data_count=0
@@ -142,18 +144,32 @@ class NeuralNet:
         self.error_percentage = (self.cumulative_error/self.data_count)*100
 
     def saveNeuralNet(self):              
-        print("Saving NeuralNet to filename : ",self.filename)
+        print("Saving NeuralNet to charan filename : ",self.filename)
         wfile = self.filename + "-wgt-"
         bias = self.filename + "-bias-"
         i = 0
         while i < (self.layercount): 
-            self.layers[i].weights.loadFromGpu()
-            self.layers[i].bias.loadFromGpu()
+            #self.layers[i].weights.loadFromGpu()
+            #self.layers[i].bias.loadFromGpu()
             
             np.save(wfile+str(i),self.layers[i].weights.mat)
             #print(self.layers[i].weights.mat)
             np.save(bias+str(i),self.layers[i].bias.mat)         
-            i=i+1   
+            i=i+1 
+
+    def loadNeuralNet(self):              
+        print("Loading NeuralNet from filename : ",self.filename)
+        wfile = self.filename + "-wgt-"
+        bias = self.filename + "-bias-"
+        i = 0
+        while i < (self.layercount): 
+            self.layers[i].weights.mat = np.load(wfile+str(i)+".npy")
+            #print(self.layers[i].weights.mat)
+            
+            #self.layers[i].weights.saveToGpu()
+            self.layers[i].bias.mat = np.load(bias+str(i)+".npy") 
+            #self.layers[i].bias.saveToGpu()  
+            i=i+1
         
     def train(self, input_args, target_args, batch_size):
         self.predict(input_args,target_args,batch_size)
