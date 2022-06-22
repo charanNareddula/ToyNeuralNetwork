@@ -29,56 +29,7 @@ Following are different performance experiments of ToyNeuralnet used for Inferen
 - Test script: test_NN.py
 
  
-<table border=1>
-<thead>
-<tr>
-<th>Test-no</th>
-<th>Description</th>
-<th>Result</th>
-</tr>
-<tr>
-<th>1</th>
-<th> Large-NeuralNet Training with CPU batch=3
-   </th>
-<th>Time taken by Training=24sec  cpu utilization=600% gpu utilization=0%.  Summary: CPU is slower when compare to GPU.</th>
-</tr>
-<tr>
-<th>2</th>
-<th> Large-NeuralNet Training with GPU batch=3
-</th>
-<th>Time taken by Training=9sec 
- cpu utilization=100% gpu=100%. Summary: Test on GPU is faster when compare to CPU. 
-</th>
-</tr>
 
-<tr>
-<th>3</th>
-<th>Large-NeuralNet Training with CPU batch=10
-   </th>
-<th>Time taken by Training=9sec  cpu utilization=600% gpu utilization=0%</th>
-</tr>
-<tr>
-<th>4</th>
-<th>Large-NeuralNet Training with GPU batch=10
-</th>
-<th>Time taken by Training=5.4sec 
- cpu utilization=100% gpu=100%
-</th>
-</tr>
-<tr>
-<th>5</th>
-<th>Large-NeuralNet Prediction/Inference with GPU batch=10
-</th>
-<th>  CPU is slightly faster then GPU, Reason why GPU is not faster: a) Matrix multiplication used in Inference is MxN by MX1  instead of MXN by MXN used in trainning ,  for large batching GPU becomes better. 2) In Inference there will not be much memory writes so gpu computations are less.
-</th>
-</tr>
-<tr>
-<th>6</th>
-<th>Small-NeuralNet Training with GPU Vs CPU
-</th>
-<th>CPU latency is much better when compare to GPU, GPU as overhead of loading the data from main memory to GPU and viceversa for a very small computation. 
-</th>
-</tr>
-</tbody></table>
+
 
 
